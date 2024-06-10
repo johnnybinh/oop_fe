@@ -31,7 +31,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
+import { getData, postData } from "@/app/util/api";
 import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
 
@@ -44,24 +44,21 @@ const NewExpense = () => {
     defaultValues: {
       name: "",
       amount: 0,
-      select: "",
       date: "",
+      type: "",
     },
   });
   const { toast } = useToast();
   //submit
-  const onSubmit = (values) => {
-    toast({
-      title: "working!",
-      description: <pre>{JSON.stringify(values)}</pre>,
-    });
-    console.log(values);
+  const onSubmit = async (values) => {
+    await postData(values);
+    await window.location.reload();
   };
   return (
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">New Expense</Button>
+          <Button variant="outline">Create New Expense</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -90,7 +87,11 @@ const NewExpense = () => {
                 control={control}
                 render={({ field }) => {
                   return (
-                    <Input {...field} type="text" placeholder="amount"></Input>
+                    <Input
+                      {...field}
+                      type="number"
+                      placeholder="amount"
+                    ></Input>
                   );
                 }}
               />
@@ -148,7 +149,13 @@ const NewExpense = () => {
                           <Calendar
                             mode="single"
                             selected={field.value}
-                            onSelect={field.onChange}
+                            onSelect={(date) => {
+                              const formattedDate = format(
+                                new Date(date),
+                                "yyyy-MM-dd"
+                              );
+                              field.onChange(formattedDate);
+                            }}
                           ></Calendar>
                         </PopoverContent>
                       </>

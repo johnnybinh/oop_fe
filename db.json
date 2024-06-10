@@ -1,0 +1,18 @@
+{
+  "spending": [
+    {
+      "id": "1",
+      "name": "food",
+      "amount": 10000,
+      "type": "Food",
+      "date": "12/4/2024"
+    },
+    {
+      "id": "9202",
+      "name": "test",
+      "amount": 10,
+      "date": "2023-06-10",
+      "type": "food"
+    }
+  ]
+}
